@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FAFAFA; /* Toza, premium och fon */
+            background-color: #FAFAFA; /* Toza premium och fon */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,24 +16,47 @@
             margin: 0;
             overflow: hidden;
             color: #2C3E50;
+            position: relative;
+        }
+
+        /* Orqa fondagi nozik premium uchqunlar effekti */
+        .sparkle {
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(212,175,55,0.3) 0%, rgba(212,175,55,0) 70%);
+            border-radius: 50%;
+            animation: floatSparkle 8s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes floatSparkle {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
+            50% { transform: translateY(-40px) scale(1.2); opacity: 0.6; }
         }
 
         .container {
             text-align: center;
-            background: #FFFFFF;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             padding: 50px 35px;
             border-radius: 24px;
             /* Nozik premium tillarang qirra va yumshoq soya */
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            box-shadow: 0 15px 45px rgba(212, 175, 55, 0.06), 
-                        0 5px 15px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.08), 
+                        0 5px 15px rgba(0, 0, 0, 0.01);
             max-width: 380px;
             width: 85%;
             transition: all 0.4s ease;
+            position: relative;
+            z-index: 10;
         }
 
         h1 {
-            color: #2c3e50;
+            /* Premium tillarang jilo effekti */
+            background: linear-gradient(135deg, #2c3e50 0%, #ad8b28 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-size: 23px;
             margin-top: 0;
             margin-bottom: 12px;
@@ -42,7 +65,7 @@
         }
 
         .compliment {
-            color: #7f8c8d; /* Sizga yoqqan original shrift rangi */
+            color: #7f8c8d; 
             font-style: italic;
             font-size: 14.5px;
             margin-bottom: 35px;
@@ -63,7 +86,7 @@
         button {
             padding: 15px 22px;
             font-size: 16px;
-            border: 1px solid #F0F0F0;
+            border: 1px solid #EAEAEA;
             border-radius: 16px;
             cursor: pointer;
             font-weight: 500;
@@ -75,24 +98,34 @@
             outline: none;
         }
 
-        /* Tugma ustiga kelganda premium tillarang effekt */
+        /* "Да" yoki asosiy tugmalar uchun premium urg'u */
+        button.primary-btn {
+            background-color: #FDFBF4;
+            border-color: rgba(212, 175, 55, 0.5);
+            color: #b08d2b;
+            font-weight: 600;
+        }
+
         button:hover {
             background-color: #FDFBF4;
             border-color: #D4AF37;
             color: #D4AF37;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.12);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+            transform: translateY(-1px);
         }
 
         .runaway-btn {
             background-color: #FBFBFB;
             color: #95a5a6;
             border: 1px solid #F0F0F0;
+            font-weight: 400;
         }
         .runaway-btn:hover {
             background-color: #FBFBFB !important;
             color: #95a5a6 !important;
             border-color: #F0F0F0 !important;
             box-shadow: none !important;
+            transform: none !important;
         }
 
         .custom-input {
@@ -106,17 +139,16 @@
             margin-bottom: 4px;
             text-align: center;
             color: #2C3E50;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
             background-color: #FAFAFA;
         }
 
         .custom-input:focus {
             border-color: #D4AF37;
             background-color: #FFFFFF;
-            box-shadow: 0 0 8px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
         }
 
-        /* O'z variantini tasdiqlash uchun maxsus premium tugma */
         .submit-custom-btn {
             background-color: #FDFBF4;
             border-color: #D4AF37;
@@ -133,6 +165,19 @@
     </style>
 </head>
 <body>
+
+    <script>
+        for (let i = 0; i < 3; i++) {
+            let sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.width = Math.random() * 200 + 100 + 'px';
+            sparkle.style.height = sparkle.style.width;
+            sparkle.style.left = Math.random() * 80 + 10 + 'vw';
+            sparkle.style.top = Math.random() * 80 + 10 + 'vh';
+            sparkle.style.animationDelay = i * 2 + 's';
+            document.body.appendChild(sparkle);
+        }
+    </script>
 
     <div class="container" id="quizBox">
         <h1 id="question">Пойдёшь со мной на свидание?</h1>
@@ -179,6 +224,7 @@
 
                 let yesBtn = document.createElement('button');
                 yesBtn.innerText = "Да";
+                yesBtn.className = "primary-btn"; // Vizual urg'u
                 yesBtn.onclick = () => loadStep(2);
 
                 let noBtn = document.createElement('button');
@@ -195,10 +241,12 @@
                 complimentText.innerText = "В тебе есть какое-то внутреннее спокойствие и искренность, которые очень притягивают.";
 
                 let opt1 = document.createElement('button');
+                opt1.className = "primary-btn";
                 opt1.innerText = "Как-нибудь на этой неделе после работы";
                 opt1.onclick = () => { userAnswers.step2 = opt1.innerText; loadStep(3); };
 
                 let opt2 = document.createElement('button');
+                opt2.className = "primary-btn";
                 opt2.innerText = "В эти выходные, в воскресенье";
                 opt2.onclick = () => { userAnswers.step2 = opt2.innerText; loadStep(3); };
 
@@ -213,7 +261,7 @@
                 optionsBox.appendChild(opt3);
             } 
             else if (step === 3) {
-                questionText.innerText = "Прекрасный выбор! Kuда пойдём?";
+                questionText.innerText = "Прекрасный выбор! Куда пойдём?";
                 complimentText.innerText = "Твой вкус и взгляд на мир всегда приятно удивляют меня.";
 
                 let customInput = document.createElement('input');
@@ -262,7 +310,6 @@
                     }
                 }
 
-                // Fokus yo'qolmasligi uchun faqat pastki tugmalarni o'zgartiramiz
                 customInput.oninput = renderThirdStepButtons;
 
                 optionsBox.appendChild(customInput);
