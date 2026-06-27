@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Men bilan uchrashuvga chiqasanmi? 😉</title>
+    <title>Siz uchun maxsus taklif ✨</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #ffe6e6;
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #faf6f6;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -15,114 +15,210 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            color: #333;
         }
 
         .container {
             text-align: center;
             background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+            max-width: 400px;
+            width: 85%;
+            transition: all 0.3s ease;
         }
 
         h1 {
-            color: #ff4d4d;
-            font-size: 24px;
-            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
-        .buttons {
+        .compliment {
+            color: #e74c3c;
+            font-style: italic;
+            font-size: 14px;
+            margin-bottom: 25px;
+            min-height: 20px;
+            font-weight: 500;
+        }
+
+        .options-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            flex-direction: column;
+            gap: 12px;
             position: relative;
-            height: 50px;
-            width: 300px;
-            margin: 0 auto;
+            align-items: center;
+            width: 100%;
         }
 
         button {
-            padding: 12px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 25px;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 1px solid #f0f0f0;
+            border-radius: 16px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 500;
+            background-color: #fff;
+            color: #4a4a4a;
             transition: all 0.2s ease;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        #yesBtn {
-            background-color: #4caf50;
+        button:hover {
+            background-color: #fdf2f2;
+            border-color: #ffb3b3;
+            color: #e74c3c;
+        }
+
+        /* Qochib ketishi kerak bo'lgan tugma stili */
+        .runaway-btn {
+            background-color: #fbfbfb;
+            color: #95a5a6;
+        }
+
+        /* Matn kiritish joyi (3-savol uchun) */
+        .custom-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 8px;
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .custom-input:focus {
+            border-color: #e74c3c;
+        }
+
+        .submit-btn {
+            background-color: #e74c3c;
             color: white;
+            border: none;
         }
-
-        #yesBtn:hover {
-            transform: scale(1.1);
-        }
-
-        #noBtn {
-            background-color: #f44336;
+        .submit-btn:hover {
+            background-color: #c0392b;
             color: white;
-            position: absolute;
-            left: 160px; /* Boshlang'ich o'rni */
         }
     </style>
 </head>
 <body>
 
     <div class="container" id="quizBox">
-        <h1 id="question">Men bilan uchrashuvga chiqasanmi? 🌹</h1>
-        <div class="buttons">
-            <button id="yesBtn" onclick="nextQuestion()">Xa</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">Yo'q</button>
-        </div>
+        <h1 id="question">Men bilan uchrashuvga chiqasizmi?</h1>
+        <div class="compliment" id="complimentText">Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.</div>
+        
+        <div class="options-container" id="optionsBox">
+            </div>
     </div>
 
     <script>
-        // Savollar ro'yxati
-        const questions = [
-            "Rostdanmi? Unda keyingi savol: Qayerga boramiz? ☕ (Xa ni bos)",
-            "Ajoyib! Soat 19:00 da tayyor bo'lib turasanmi? 🌆",
-            "Kelishdik! Lokatsiyani tez orada tashlayman. Kutaman! ❤️"
-        ];
-        
-        let currentStep = 0;
-
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
+        let currentStep = 1;
+        const optionsBox = document.getElementById('optionsBox');
         const questionText = document.getElementById('question');
+        const complimentText = document.getElementById('complimentText');
 
-        // "Yo'q" tugmasini qochirib yuboradigan funksiya
-        function moveButton() {
-            // Ekran o'lchamlarini olish (tugma ekrandan chiqib ketmasligi uchun)
-            const maxWidth = window.innerWidth - noBtn.offsetWidth - 50;
-            const maxHeight = window.innerHeight - noBtn.offsetHeight - 50;
+        // Tugmani qochirish funksiyasi
+        function moveButton(btn) {
+            const maxWidth = window.innerWidth - btn.offsetWidth - 40;
+            const maxHeight = window.innerHeight - btn.offsetHeight - 40;
 
-            // Tasodifiy yangi koordinatalar
             const randomX = Math.floor(Math.random() * maxWidth);
             const randomY = Math.floor(Math.random() * maxHeight);
 
-            // Tugmani mutloq pozitsiyaga o'tkazish va joyini o'zgartirish
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.zIndex = '1000';
+            btn.style.width = 'auto';
         }
 
-        // "Xa" tugmasi bosilganda keyingi savolga o'tish
-        function nextQuestion() {
-            if (currentStep < questions.length) {
-                questionText.innerText = questions[currentStep];
-                currentStep++;
+        // Bosqichlarni boshqarish
+        function loadStep(step) {
+            optionsBox.innerHTML = ''; // Tozalash
+            
+            if (step === 1) {
+                questionText.innerText = "Men bilan uchrashuvga chiqasizmi?";
+                complimentText.innerText = "Siz bilan o'tgan har bir daqiqa hayotimga o'zgacha iliqlik olib kiradi.";
+
+                let yesBtn = document.createElement('button');
+                yesBtn.innerText = "Ha";
+                yesBtn.onclick = () => loadStep(2);
+
+                let noBtn = document.createElement('button');
+                noBtn.innerText = "Yo'q";
+                noBtn.className = "runaway-btn";
+                noBtn.onmouseover = () => moveButton(noBtn);
+                noBtn.onclick = () => moveButton(noBtn);
+
+                optionsBox.appendChild(yesBtn);
+                optionsBox.appendChild(noBtn);
+            } 
+            else if (step === 2) {
+                questionText.innerText = "Yaxshi, unda qaysi sanani tanlaymiz?";
+                complimentText.innerText = "Sizda qandaydir ichki bir xotirjamlik va samimiylik bor, bu juda jalb qiladi.";
+
+                let opt1 = document.createElement('button');
+                opt1.innerText = "Shu hafta biron kun ishdan keyin";
+                opt1.onclick = () => loadStep(3);
+
+                let opt2 = document.createElement('button');
+                opt2.innerText = "Shu hafta oxiri yakshanba kuni";
+                opt2.onclick = () => loadStep(3);
+
+                let opt3 = document.createElement('button');
+                opt3.innerText = "Mening umuman vaqtim yo'q";
+                opt3.className = "runaway-btn";
+                opt3.onmouseover = () => moveButton(opt3);
+                opt3.onclick = () => moveButton(opt3);
+
+                optionsBox.appendChild(opt1);
+                optionsBox.appendChild(opt2);
+                optionsBox.appendChild(opt3);
+            } 
+            else if (step === 3) {
+                questionText.innerText = "Siz juda ajoyib harakat qilyapsiz! Qayerga boramiz?";
+                complimentText.innerText = "Didingiz va dunyoqarashingiz doim meni hayratda qoldiradi.";
+
+                // O'zi yozishi uchun input
+                let customInput = document.createElement('input');
+                customInput.type = "text";
+                customInput.placeholder = "O'zingiz xohlagan joyni yozing...";
+                customInput.className = "custom-input";
+                customInput.id = "userPlace";
+
+                let opt1 = document.createElement('button');
+                opt1.innerText = "Shunchaki ko'rishib aylanishga";
+                opt1.onclick = () => loadStep(4);
+
+                let opt2 = document.createElement('button');
+                opt2.innerText = "Biron joyda o'tirib gaplashishga";
+                opt2.onclick = () => loadStep(4);
+
+                let opt3 = document.createElement('button');
+                opt3.innerText = "Uzr! Men baribir borolmayman";
+                opt3.className = "runaway-btn";
+                opt3.onmouseover = () => moveButton(opt3);
+                opt3.onclick = () => moveButton(opt3);
+
+                // Input to'ldirilib boshqa joyga bosilsa yoki biron variant tanlansa ham o'tadi
+                opt1.onclick = () => { saveCustomPlace(); loadStep(4); };
+                opt2.onclick = () => { saveCustomPlace(); loadStep(4); };
+
+                optionsBox.appendChild(customInput);
+                optionsBox.appendChild(opt1);
+                optionsBox.appendChild(opt2);
+                optionsBox.appendChild(opt3);
+            } 
+            else if (step === 4) {
+                questionText.innerText = "Kelishdik! ✨";
+                complimentText.innerText = "Siz bilan suhbatlashish — men uchun haftaning eng kutilgan qismi bo'ladi.";
                 
-                // Oxirgi bosqichda tugmalarni yashirish yoki o'zgartirish
-                if (currentStep === questions.length) {
-                    noBtn.style.display = 'none';
-                    yesBtn.innerText = "Yeeey! 🎉";
-                    yesBtn.onclick = null; // Bosganda hech narsa bo'lmaydi
-                }
-            }
-        }
-    </script>
-
-</body>
-</html>
+                let final
