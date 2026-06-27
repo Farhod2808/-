@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men bilan uchrashuvga chiqasanmi? 😉</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe6e6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #ff4d4d;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+            position: absolute;
+            left: 160px; /* Boshlang'ich o'rni */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="quizBox">
+        <h1 id="question">Men bilan uchrashuvga chiqasanmi? 🌹</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="nextQuestion()">Xa</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">Yo'q</button>
+        </div>
+    </div>
+
+    <script>
+        // Savollar ro'yxati
+        const questions = [
+            "Rostdanmi? Unda keyingi savol: Qayerga boramiz? ☕ (Xa ni bos)",
+            "Ajoyib! Soat 19:00 da tayyor bo'lib turasanmi? 🌆",
+            "Kelishdik! Lokatsiyani tez orada tashlayman. Kutaman! ❤️"
+        ];
+        
+        let currentStep = 0;
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const questionText = document.getElementById('question');
+
+        // "Yo'q" tugmasini qochirib yuboradigan funksiya
+        function moveButton() {
+            // Ekran o'lchamlarini olish (tugma ekrandan chiqib ketmasligi uchun)
+            const maxWidth = window.innerWidth - noBtn.offsetWidth - 50;
+            const maxHeight = window.innerHeight - noBtn.offsetHeight - 50;
+
+            // Tasodifiy yangi koordinatalar
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+
+            // Tugmani mutloq pozitsiyaga o'tkazish va joyini o'zgartirish
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // "Xa" tugmasi bosilganda keyingi savolga o'tish
+        function nextQuestion() {
+            if (currentStep < questions.length) {
+                questionText.innerText = questions[currentStep];
+                currentStep++;
+                
+                // Oxirgi bosqichda tugmalarni yashirish yoki o'zgartirish
+                if (currentStep === questions.length) {
+                    noBtn.style.display = 'none';
+                    yesBtn.innerText = "Yeeey! 🎉";
+                    yesBtn.onclick = null; // Bosganda hech narsa bo'lmaydi
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
