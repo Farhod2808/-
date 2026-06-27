@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Special Quiz ✨</title>
+    <title>Men bilan uchrashuvga chiqasanmi? 🥺</title>
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -135,13 +135,13 @@
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
         }
 
-        /* Qochadigan tugma uchun silliq animatsiya transitioni */
+        /* Qochadigan tugmaning mutloq ustun turing stili */
         .runaway-btn {
             background-color: #FBFBFB;
             color: #95a5a6;
             border: 1px solid #F0F0F0;
             font-weight: 400;
-            /* Faqat pozitsiya o'zgarganda fonda chiroyli siljiydi va yo'qolmaydi */
+            z-index: 9999 !important;
             transition: left 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), top 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
         }
 
@@ -213,8 +213,8 @@
     </script>
 
     <div class="container" id="quizBox">
-        <h1 id="question">Выберите язык / Тилни tanlang</h1>
-        <div class="compliment" id="complimentText" style="color: #7f8c8d;">✨</div>
+        <h1 id="question">Men bilan uchrashuvga chiqasanmi?</h1>
+        <div class="compliment" id="complimentText">Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.</div>
         
         <div class="options-container" id="optionsBox">
             </div>
@@ -228,132 +228,70 @@
         const TELEGRAM_BOT_TOKEN = '8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU'; 
         const TELEGRAM_CHAT_ID = '1311736668';
 
-        let currentLang = 'uz';
-
-        const locales = {
-            uz: {
-                step1_q: "Men bilan uchrashuvga chiqasanmi?",
-                step1_c: "Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.",
-                step1_yes: "Да",
-                step1_no: "Нет",
-                step2_q: "Ajoyib, unda qaysi kunni tanlaymiz?",
-                step2_c: "Sizda qandaydir ichki xotirjamlik va samimiylik bor, bular meni juda jalb qiladi.",
-                step2_o1: "Shu hafta ishdan keyin biron kun",
-                step2_o2: "Shu dam olish kunlari, yakshanba kuni",
-                step2_o3: "Menda umuman vaqt yo'q",
-                step3_q: "Ajoyib tanlov! Qayerga boramiz?",
-                step3_c: "Sizning didingiz va dunyoqarashingiz meni har doim hayratda qoldiradi.",
-                step3_placeholder: "Xohlasangiz, o'z variantingizni yozing...",
-                step3_custom_btn: "Mening variantimni tanlash",
-                step3_o1: "Shunchaki aylanib, suhbatlashamiz",
-                step3_o2: "Shinamgina joyda o'tiramiz",
-                step3_o3: "Kechirasiz, baribir bora olmayman",
-                step4_q: "Kelishtik! ✨",
-                step4_c: "Siz bilan uchrashish haftamning eng yaxshi qismiga aylanadi.",
-                step4_f: "Tez orada barcha tafsilotlarni kelishib olamiz. Javoblaringiz uchun rahmat! 😉",
-                tg_title: "Yangi javob tushdi!",
-                tg_q1: "Uchrashuvga chiqadimi?",
-                tg_q2: "Qaysi sana?",
-                tg_q3: "Qayerga borasizlar?",
-                tg_ans_yes: "Да (Rozilik bildirdi)"
-            },
-            ru: {
-                step1_q: "Пойдёшь со мной на свидание?",
-                step1_c: "Каждая минута, проведённая с тобой, приносит в мою жизнь особое тепло.",
-                step1_yes: "Да",
-                step1_no: "Нет",
-                step2_q: "Отлично, тогда какую дату выберем?",
-                step2_c: "В тебе есть какое-то внутреннее спокойствие и искренность, которые очень притягивают.",
-                step2_o1: "Как-нибудь на этой неделе после работы",
-                step2_o2: "В эти выходные, в воскресенье",
-                step2_o3: "У меня вообще нет времени",
-                step3_q: "Прекрасный выбор! Куда пойдём?",
-                step3_c: "Твой вкус и взгляд на мир всегда приятно удивляют меня.",
-                step3_placeholder: "Напиши свой вариант, если хочешь...",
-                step3_custom_btn: "Выбрать мой вариант",
-                step3_o1: "Просто прогуляемся и пообщаемся",
-                step3_o2: "Посидим где-нибудь в уютном месте",
-                step3_o3: "Извини, я всё равно не смогу пойти",
-                step4_q: "Договорились! ✨",
-                step4_c: "Встреча с тобой станет лучшей частью моей недели.",
-                step4_f: "Скоро согласуем все детали. Спасибо за твои ответы! 😉",
-                tg_title: "Новый ответ на свидание!",
-                tg_q1: "Пойдёшь на свидание?",
-                tg_q2: "Какая дата?",
-                tg_q3: "Куда пойдёте?",
-                tg_ans_yes: "Да (Согласилась)"
-            }
+        const textData = {
+            step1_q: "Men bilan uchrashuvga chiqasanmi?",
+            step1_c: "Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.",
+            step1_yes: "Ha",
+            step1_no: "Yo'q",
+            step2_q: "Ajoyib, unda qaysi kunni tanlaymiz?",
+            step2_c: "Sizda qandaydir ichki xotirjamlik va samimiylik bor, bular meni juda jalb qiladi.",
+            step2_o1: "Shu hafta ishdan keyin biron kun",
+            step2_o2: "Shu dam olish kunlari, yakshanba kuni",
+            step2_o3: "Menda umuman vaqt yo'q",
+            step3_q: "Ajoyib tanlov! Qayerga boramiz?",
+            step3_c: "Sizning didingiz va dunyoqarashingiz meni har doim hayratda qoldiradi.",
+            step3_placeholder: "Xohlasangiz, o'z variantingizni yozing...",
+            step3_custom_btn: "Mening variantimni tanlash",
+            step3_o1: "Shunchaki aylanib, suhbatlashamiz",
+            step3_o2: "Shinamgina joyda o'tiramiz",
+            step3_o3: "Kechirasiz, baribir bora olmayman",
+            step4_q: "Kelishtik! ✨",
+            step4_c: "Siz bilan uchrashish haftamning eng yaxshi qismiga aylanadi.",
+            step4_f: "Tez orada barcha tafsilotlarni kelishib olamiz. Javoblaringiz uchun rahmat! 😉",
+            tg_title: "Yangi javob tushdi!",
+            tg_q1: "Uchrashuvga chiqadimi?",
+            tg_q2: "Qaysi sana?",
+            tg_q3: "Qayerga borasizlar?",
+            tg_ans_yes: "Ha (Rozilik bildirdi)"
         };
 
         let userAnswers = {
-            lang: "",
-            step1: "",
+            step1: textData.tg_ans_yes,
             step2: "",
             step3: ""
         };
 
-        // Aqlli qochish funksiyasi: Tugmani faqat ko'rinadigan ekran ichida aylantiradi
+        // Yo'qolib qolmaydigan aqlli qochish funksiyasi
         function moveButton(btn) {
-            const padding = 40;
-            // Ekran o'lchamlari cheklovlari
-            const maxWidth = window.innerWidth - btn.offsetWidth - padding;
-            const maxHeight = window.innerHeight - btn.offsetHeight - padding;
+            const paddingX = 60;
+            const paddingY = 60;
+            
+            const maxWidth = window.innerWidth - btn.offsetWidth - paddingX;
+            const maxHeight = window.innerHeight - btn.offsetHeight - paddingY;
 
-            // Tasodifiy yangi koordinatalar (lekin har doim ekran ichida qoladi)
-            let randomX = Math.floor(Math.random() * (maxWidth - padding)) + padding;
-            let randomY = Math.floor(Math.random() * (maxHeight - padding)) + padding;
+            let randomX = Math.floor(Math.random() * (maxWidth - paddingX)) + paddingX;
+            let randomY = Math.floor(Math.random() * (maxHeight - paddingY)) + paddingY;
 
             btn.style.position = 'fixed';
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
-            btn.style.zIndex = '1000';
-            btn.style.width = '160px'; // Qochganda ixcham shaklga keladi
-        }
-
-        function loadLangStep() {
-            optionsBox.innerHTML = '';
-            
-            let uzBtn = document.createElement('button');
-            uzBtn.innerText = "O'zbekcha 🇺🇿";
-            uzBtn.className = "primary-btn";
-            uzBtn.onclick = () => { 
-                currentLang = 'uz'; 
-                userAnswers.lang = "O'zbekcha";
-                userAnswers.step1 = locales.uz.tg_ans_yes;
-                loadStep(1); 
-            };
-
-            let ruBtn = document.createElement('button');
-            ruBtn.innerText = "Русский 🇷🇺";
-            ruBtn.className = "primary-btn";
-            ruBtn.onclick = () => { 
-                currentLang = 'ru'; 
-                userAnswers.lang = "Русский";
-                userAnswers.step1 = locales.ru.tg_ans_yes;
-                loadStep(1); 
-            };
-
-            optionsBox.appendChild(uzBtn);
-            optionsBox.appendChild(ruBtn);
+            btn.style.width = '150px';
         }
 
         function loadStep(step) {
             optionsBox.innerHTML = '';
-            const text = locales[currentLang];
             
             if (step === 1) {
-                complimentText.style.color = '#e74c3c';
-                questionText.innerText = text.step1_q;
-                complimentText.innerText = text.step1_c;
+                questionText.innerText = textData.step1_q;
+                complimentText.innerText = textData.step1_c;
 
                 let yesBtn = document.createElement('button');
-                yesBtn.innerText = text.step1_yes;
+                yesBtn.innerText = textData.step1_yes;
                 yesBtn.className = "primary-btn";
                 yesBtn.onclick = () => loadStep(2);
 
-                // Dastlab to'g'ri "Да" tugmasining tagida joylashadigan "Нет" tugmasi
                 let noBtn = document.createElement('button');
-                noBtn.innerText = text.step1_no;
+                noBtn.innerText = textData.step1_no;
                 noBtn.className = "runaway-btn";
                 noBtn.onmouseover = () => moveButton(noBtn);
                 noBtn.onclick = () => moveButton(noBtn);
@@ -362,21 +300,21 @@
                 optionsBox.appendChild(noBtn);
             } 
             else if (step === 2) {
-                questionText.innerText = text.step2_q;
-                complimentText.innerText = text.step2_c;
+                questionText.innerText = textData.step2_q;
+                complimentText.innerText = textData.step2_c;
 
                 let opt1 = document.createElement('button');
                 opt1.className = "primary-btn";
-                opt1.innerText = text.step2_o1;
+                opt1.innerText = textData.step2_o1;
                 opt1.onclick = () => { userAnswers.step2 = opt1.innerText; loadStep(3); };
 
                 let opt2 = document.createElement('button');
                 opt2.className = "primary-btn";
-                opt2.innerText = text.step2_o2;
+                opt2.innerText = textData.step2_o2;
                 opt2.onclick = () => { userAnswers.step2 = opt2.innerText; loadStep(3); };
 
                 let opt3 = document.createElement('button');
-                opt3.innerText = text.step2_o3;
+                opt3.innerText = textData.step2_o3;
                 opt3.className = "runaway-btn";
                 opt3.onmouseover = () => moveButton(opt3);
                 opt3.onclick = () => moveButton(opt3);
@@ -386,12 +324,12 @@
                 optionsBox.appendChild(opt3);
             } 
             else if (step === 3) {
-                questionText.innerText = text.step3_q;
-                complimentText.innerText = text.step3_c;
+                questionText.innerText = textData.step3_q;
+                complimentText.innerText = textData.step3_c;
 
                 let customInput = document.createElement('input');
                 customInput.type = "text";
-                customInput.placeholder = text.step3_placeholder;
+                customInput.placeholder = textData.step3_placeholder;
                 customInput.className = "custom-input";
                 customInput.id = "userPlace";
 
@@ -407,24 +345,24 @@
 
                     if (textVal !== "") {
                         let submitBtn = document.createElement('button');
-                        submitBtn.innerText = text.step3_custom_btn;
+                        submitBtn.innerText = textData.step3_custom_btn;
                         submitBtn.className = "submit-custom-btn";
                         submitBtn.onclick = () => {
-                            userAnswers.step3 = currentLang === 'uz' ? `O'z varianti: "${textVal}"` : `Свой вариант: "${textVal}"`;
+                            userAnswers.step3 = `O'z varianti: "${textVal}"`;
                             sendResultsTelegram();
                         };
                         dynamicButtonsWrapper.appendChild(submitBtn);
                     } else {
                         let opt1 = document.createElement('button');
-                        opt1.innerText = text.step3_o1;
+                        opt1.innerText = textData.step3_o1;
                         opt1.onclick = () => { userAnswers.step3 = opt1.innerText; sendResultsTelegram(); };
 
                         let opt2 = document.createElement('button');
-                        opt2.innerText = text.step3_o2;
+                        opt2.innerText = textData.step3_o2;
                         opt2.onclick = () => { userAnswers.step3 = opt2.innerText; sendResultsTelegram(); };
 
                         let opt3 = document.createElement('button');
-                        opt3.innerText = text.step3_o3;
+                        opt3.innerText = textData.step3_o3;
                         opt3.className = "runaway-btn";
                         opt3.onmouseover = () => moveButton(opt3);
                         opt3.onclick = () => moveButton(opt3);
@@ -442,24 +380,22 @@
                 renderThirdStepButtons();
             } 
             else if (step === 4) {
-                questionText.innerText = text.step4_q;
-                complimentText.innerText = text.step4_c;
+                questionText.innerText = textData.step4_q;
+                complimentText.innerText = textData.step4_c;
                 
                 let finalMsg = document.createElement('p');
                 finalMsg.id = "finalMsg";
-                finalMsg.innerText = text.step4_f;
+                finalMsg.innerText = textData.step4_f;
                 
                 optionsBox.appendChild(finalMsg);
             }
         }
 
         function sendResultsTelegram() {
-            const text = locales[currentLang];
-            const message = `🔔 *${text.tg_title}*\n\n` +
-                            `🌐 Til / Язык: ${userAnswers.lang}\n` +
-                            `1. ${text.tg_q1}: ${userAnswers.step1}\n` +
-                            `2. ${text.tg_q2}: ${userAnswers.step2}\n` +
-                            `3. ${text.tg_q3}: ${userAnswers.step3}`;
+            const message = `🔔 *${textData.tg_title}*\n\n` +
+                            `1. ${textData.tg_q1}: ${userAnswers.step1}\n` +
+                            `2. ${textData.tg_q2}: ${userAnswers.step2}\n` +
+                            `3. ${textData.tg_q3}: ${userAnswers.step3}`;
 
             const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
             
@@ -480,7 +416,7 @@
         }
 
         try {
-            loadLangStep();
+            loadStep(1);
         } catch(e) {
             console.error("Error loading step:", e);
         }
