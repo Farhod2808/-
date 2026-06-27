@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #FAFAFA; /* Toza, och fon */
+            background-color: #F6F8FA; /* Minimalism: Ochiq silliq kulrang */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -15,61 +15,307 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            color: #333333;
-            position: relative;
-        }
-
-        /* Kreativ suzuvchi emojilar uchun stil */
-        .floating-emoji {
-            position: absolute;
-            font-size: 20px;
-            opacity: 0.15;
-            animation: floatAnimation 12s linear infinite;
-            bottom: -50px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        @keyframes floatAnimation {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.2;
-            }
-            90% {
-                opacity: 0.2;
-            }
-            100% {
-                transform: translateY(-105vh) rotate(360deg);
-                opacity: 0;
-            }
+            color: #1A1A1A;
         }
 
         .container {
             text-align: center;
             background: #FFFFFF;
-            padding: 45px 35px;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            padding: 50px 40px;
+            border-radius: 30px; /* Minimalism: Silliq yumaloq qirralar */
+            box-shadow: 20px 20px 60px #e0e2e4,
+                        -20px -20px 60px #ffffff; /* Neomorfizm: Yumshoq botiq ko'lanka */
             max-width: 380px;
             width: 85%;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 10; /* Emojilardan tepada turishi uchun */
+            transition: all 0.4s ease;
         }
 
         h1 {
             color: #2c3e50;
-            font-size: 23px;
+            font-size: 24px;
             margin-top: 0;
             margin-bottom: 12px;
             font-weight: 600;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
         .compliment {
-            color: #7f8c8d; /* Oldingi yoqqan shrift rangi */
+            color: #95a5a6; /* Minimalism: Nozik kulrang */
             font-style: italic;
-            font
+            font-size: 15px;
+            margin-bottom: 35px;
+            min-height: 22px;
+            font-weight: 400;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            align-items: center;
+            width: 100%;
+        }
+
+        button {
+            padding: 16px 24px;
+            font-size: 17px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            background-color: #FFFFFF;
+            color: #333;
+            box-shadow: inset 0 0 0 transparent,
+                        8px 8px 16px #e0e2e4,
+                        -8px -8px 16px #ffffff; /* Neomorfizm tugma: Yumshoq chiqib turish */
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        button:hover {
+            color: #e74c3c;
+            box-shadow: inset 8px 8px 16px #e0e2e4,
+                        inset -8px -8px 16px #ffffff; /* Neomorfizm hoover: Botiq tugma effekti */
+        }
+
+        .runaway-btn {
+            background-color: #F8F9FA;
+            color: #bdc3c7;
+            box-shadow: inset 4px 4px 8px #e0e2e4,
+                        inset -4px -4px 8px #ffffff; /* Botiqroq qochish tugmasi */
+        }
+
+        .custom-input {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            background: #F6F8FA;
+            box-shadow: inset 8px 8px 16px #e0e2e4,
+                        inset -8px -8px 16px #ffffff; /* Neomorfizm kiritish maydoni: Botiq */
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #1A1A1A;
+            transition: box-shadow 0.2s;
+        }
+
+        .custom-input:focus {
+            box-shadow: inset 8px 8px 16px #e0e2e4,
+                        inset -8px -8px 16px #ffffff,
+                        0 0 10px rgba(231, 76, 60, 0.2);
+        }
+
+        /* Oxirgi yakuniy matn uchun minimalist stil */
+        #finalMsg {
+            font-size: 17px;
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-top: 10px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="quizBox">
+        <h1 id="question">Пойдёшь со мной на свидание?</h1>
+        <div class="compliment" id="complimentText">Ты единственная, кто может сделать мои дни намного ярче.</div>
+        
+        <div class="options-container" id="optionsBox">
+            </div>
+    </div>
+
+    <script>
+        const optionsBox = document.getElementById('optionsBox');
+        const questionText = document.getElementById('question');
+        const complimentText = document.getElementById('complimentText');
+
+        // Sizning Telegram ma'lumotlaringiz
+        const TELEGRAM_BOT_TOKEN = '8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU'; 
+        const TELEGRAM_CHAT_ID = '1311736668';
+
+        let userAnswers = {
+            step1: "Да (Согласилась)",
+            step2: "",
+            step3: ""
+        };
+
+        let customPlaceText = ""; // O'zi kiritgan joyni saqlash
+
+        function moveButton(btn) {
+            const maxWidth = window.innerWidth - btn.offsetWidth - 40;
+            const maxHeight = window.innerHeight - btn.offsetHeight - 40;
+
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.zIndex = '1000';
+            btn.style.width = 'auto';
+        }
+
+        // Input'ga matn kiritilishini tekshiruvchi funksiya
+        function checkCustomInput() {
+            const input = document.getElementById('userPlace');
+            if (input.value.trim() !== "") {
+                customPlaceText = input.value.trim();
+                showSelectCustomBtn(true);
+            } else {
+                customPlaceText = "";
+                showSelectCustomBtn(false);
+            }
+        }
+
+        // Kiritilgan variantni tanlash tugmasini ko'rsatish/yashirish
+        function showSelectCustomBtn(show) {
+            optionsBox.innerHTML = ''; // Tozalash
+
+            // Input'ni qayta qo'shish (har doim tursin)
+            let customInput = document.createElement('input');
+            customInput.type = "text";
+            customInput.placeholder = "Напиши свой вариант, если хочешь...";
+            customInput.className = "custom-input";
+            customInput.id = "userPlace";
+            customInput.value = customPlaceText;
+            customInput.oninput = checkCustomInput; // Har kiritganda tekshirish
+            optionsBox.appendChild(customInput);
+
+            if (show) {
+                // "Выбрать мой вариант" tugmasi
+                let selectCustomBtn = document.createElement('button');
+                selectCustomBtn.innerText = "Выбрать мой вариант";
+                selectCustomBtn.onclick = () => { 
+                    userAnswers.step3 = `Свой вариант: "${customPlaceText}"`;
+                    sendResultsTelegram();
+                };
+                optionsBox.appendChild(selectCustomBtn);
+            } else {
+                // Standart variantlarni ko'rsatish
+                addStandardOptions();
+            }
+        }
+
+        // 3-bosqich uchun standart variantlarni qo'shish
+        function addStandardOptions() {
+            let opt1 = document.createElement('button');
+            opt1.innerText = "Просто прогуляемся и пообщаемся";
+            opt1.onclick = () => { userAnswers.step3 = opt1.innerText; sendResultsTelegram(); };
+
+            let opt2 = document.createElement('button');
+            opt2.innerText = "Посидим где-нибудь в уютном месте";
+            opt2.onclick = () => { userAnswers.step3 = opt2.innerText; sendResultsTelegram(); };
+
+            let opt3 = document.createElement('button');
+            opt3.innerText = "Извини, я всё равно не смогу пойти";
+            opt3.className = "runaway-btn";
+            opt3.onmouseover = () => moveButton(opt3);
+            opt3.onclick = () => moveButton(opt3);
+
+            optionsBox.appendChild(opt1);
+            optionsBox.appendChild(opt2);
+            optionsBox.appendChild(opt3);
+        }
+
+
+        function loadStep(step) {
+            optionsBox.innerHTML = '';
+            
+            if (step === 1) {
+                questionText.innerText = "Пойдёшь со мной на свидание?";
+                complimentText.innerText = "Каждая минута, проведённая с тобой, приносит в мою жизнь особое тепло.";
+
+                let yesBtn = document.createElement('button');
+                yesBtn.innerText = "Да";
+                yesBtn.onclick = () => loadStep(2);
+
+                let noBtn = document.createElement('button');
+                noBtn.innerText = "Нет";
+                noBtn.className = "runaway-btn";
+                noBtn.onmouseover = () => moveButton(noBtn);
+                noBtn.onclick = () => moveButton(noBtn);
+
+                optionsBox.appendChild(yesBtn);
+                optionsBox.appendChild(noBtn);
+            } 
+            else if (step === 2) {
+                questionText.innerText = "Отлично, тогда какую дату выберем?";
+                complimentText.innerText = "В тебе есть какое-то внутреннее спокойствие и искренность, которые очень притягивают.";
+
+                let opt1 = document.createElement('button');
+                opt1.innerText = "Как-нибудь на этой неделе после работы";
+                opt1.onclick = () => { userAnswers.step2 = opt1.innerText; loadStep(3); };
+
+                let opt2 = document.createElement('button');
+                opt2.innerText = "В эти выходные, в воскресенье";
+                opt2.onclick = () => { userAnswers.step2 = opt2.innerText; loadStep(3); };
+
+                let opt3 = document.createElement('button');
+                opt3.innerText = "У меня вообще нет времени";
+                opt3.className = "runaway-btn";
+                opt3.onmouseover = () => moveButton(opt3);
+                opt3.onclick = () => moveButton(opt3);
+
+                optionsBox.appendChild(opt1);
+                optionsBox.appendChild(opt2);
+                optionsBox.appendChild(opt3);
+            } 
+            else if (step === 3) {
+                questionText.innerText = "Прекрасный выбор! Куда пойдём?";
+                complimentText.innerText = "Твой вкус и взгляд на мир всегда приятно удивляют меня.";
+
+                // 3-bosqichni boshida standart variantlar bilan yuklash
+                showSelectCustomBtn(false); 
+            } 
+            else if (step === 4) {
+                questionText.innerText = "Договорились! ✨";
+                complimentText.innerText = "Встреча с тобой станет лучшей частью моей недели.";
+                
+                let finalMsg = document.createElement('p');
+                finalMsg.id = "finalMsg";
+                finalMsg.innerText = "Скоро согласуем все детали. Спасибо за твои ответы! 😉";
+                
+                optionsBox.appendChild(finalMsg);
+            }
+        }
+
+        function sendResultsTelegram() {
+            const message = `🔔 *Новый ответ на свидание!*\n\n` +
+                            `1. Пойдёшь на свидание?: ${userAnswers.step1}\n` +
+                            `2. Какая дата?: ${userAnswers.step2}\n` +
+                            `3. Куда пойдёте?: ${userAnswers.step3}`;
+
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(() => { loadStep(4); })
+            .catch((error) => {
+                console.log('Ошибка отправки в Telegram, но сайт продолжает работу:', error);
+                loadStep(4); 
+            });
+        }
+
+        try {
+            loadStep(1);
+        } catch(e) {
+            console.error("Ошибка при загрузке:", e);
+        }
+    </script>
+
+</body>
+</html>
