@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siz uchun maxsus taklif ✨</title>
+    <title>У меня есть кое-что для тебя ✨</title>
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -100,8 +100,8 @@
 <body>
 
     <div class="container" id="quizBox">
-        <h1 id="question">Men bilan uchrashuvga chiqasizmi?</h1>
-        <div class="compliment" id="complimentText">Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.</div>
+        <h1 id="question">Пойдёшь со мной на свидание?</h1>
+        <div class="compliment" id="complimentText">Ты единственный человек, который может сделать мои дни намного ярче.</div>
         
         <div class="options-container" id="optionsBox">
             </div>
@@ -112,12 +112,12 @@
         const questionText = document.getElementById('question');
         const complimentText = document.getElementById('complimentText');
 
-        // ⚠️ DIQQAT! FAQAT SHU IKKI QATOR ICHIDAGI MATNNI O'ZGARTIRING, QO'SHTIRNOQLAR QOLSIN!
-        const TELEGRAM_BOT_TOKEN = 'BU_YERGA_BOT_TOKEN_QOYING'; 
-        const TELEGRAM_CHAT_ID = 'BU_YERGA_CHAT_ID_QOYING';
+        // Данные Telegram аккуратно вставлены в кавычки
+        const TELEGRAM_BOT_TOKEN = '8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU'; 
+        const TELEGRAM_CHAT_ID = '1311736668';
 
         let userAnswers = {
-            step1: "Ha (Rozi bo'ldi)",
+            step1: "Да (Согласилась)",
             step2: "",
             step3: ""
         };
@@ -140,15 +140,15 @@
             optionsBox.innerHTML = '';
             
             if (step === 1) {
-                questionText.innerText = "Men bilan uchrashuvga chiqasizmi?";
-                complimentText.innerText = "Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.";
+                questionText.innerText = "Пойдёшь со мной на свидание?";
+                complimentText.innerText = "Каждая минута, проведённая с тобой, приносит в мою жизнь особое тепло.";
 
                 let yesBtn = document.createElement('button');
-                yesBtn.innerText = "Ha";
+                yesBtn.innerText = "Да";
                 yesBtn.onclick = () => loadStep(2);
 
                 let noBtn = document.createElement('button');
-                noBtn.innerText = "Yo'q";
+                noBtn.innerText = "Нет";
                 noBtn.className = "runaway-btn";
                 noBtn.onmouseover = () => moveButton(noBtn);
                 noBtn.onclick = () => moveButton(noBtn);
@@ -157,19 +157,19 @@
                 optionsBox.appendChild(noBtn);
             } 
             else if (step === 2) {
-                questionText.innerText = "Yaxshi, unda qaysi sanani tanlaymiz?";
-                complimentText.innerText = "Sizda qandaydir ichki bir xotirjamlik va samimiylik bor, bu juda jalb qiladi.";
+                questionText.innerText = "Отлично, тогда какую дату выберем?";
+                complimentText.innerText = "В тебе есть какое-то внутреннее спокойствие и искренность, которые очень притягивают.";
 
                 let opt1 = document.createElement('button');
-                opt1.innerText = "Shu hafta biron kun ishdan keyin";
+                opt1.innerText = "Как-нибудь на этой неделе после работы";
                 opt1.onclick = () => { userAnswers.step2 = opt1.innerText; loadStep(3); };
 
                 let opt2 = document.createElement('button');
-                opt2.innerText = "Shu hafta oxiri yakshanba kuni";
+                opt2.innerText = "В эти выходные, в воскресенье";
                 opt2.onclick = () => { userAnswers.step2 = opt2.innerText; loadStep(3); };
 
                 let opt3 = document.createElement('button');
-                opt3.innerText = "Mening umuman vaqtim yo'q";
+                opt3.innerText = "У меня вообще нет времени";
                 opt3.className = "runaway-btn";
                 opt3.onmouseover = () => moveButton(opt3);
                 opt3.onclick = () => moveButton(opt3);
@@ -179,36 +179,36 @@
                 optionsBox.appendChild(opt3);
             } 
             else if (step === 3) {
-                questionText.innerText = "Siz juda ajoyib harakat qilyapsiz! Qayerga boramiz?";
-                complimentText.innerText = "Didingiz va dunyoqarashingiz doim meni hayratda qoldiradi.";
+                questionText.innerText = "Прекрасный выбор! Куда пойдём?";
+                complimentText.innerText = "Твой вкус и взгляд на мир всегда приятно удивляют меня.";
 
                 let customInput = document.createElement('input');
                 customInput.type = "text";
-                customInput.placeholder = "O'zingiz xohlagan joyni yozing...";
+                customInput.placeholder = "Напиши свой вариант, если хочешь...";
                 customInput.className = "custom-input";
                 customInput.id = "userPlace";
 
                 let opt1 = document.createElement('button');
-                opt1.innerText = "Shunchaki ko'rishib aylanishga";
+                opt1.innerText = "Просто прогуляемся и пообщаемся";
                 
                 let opt2 = document.createElement('button');
-                opt2.innerText = "Biron joyda o'tirib gaplashishga";
+                opt2.innerText = "Посидим где-нибудь в уютном месте";
 
                 let opt3 = document.createElement('button');
-                opt3.innerText = "Uzr! Men baribir borolmayman";
+                opt3.innerText = "Извини, я всё равно не смогу пойти";
                 opt3.className = "runaway-btn";
                 opt3.onmouseover = () => moveButton(opt3);
                 opt3.onclick = () => moveButton(opt3);
 
                 opt1.onclick = () => { 
                     let textVal = document.getElementById('userPlace').value;
-                    userAnswers.step3 = textVal ? `O'zi yozdi: "${textVal}"` : opt1.innerText;
+                    userAnswers.step3 = textVal ? `Свой вариант: "${textVal}"` : opt1.innerText;
                     sendResultsTelegram();
                 };
                 
                 opt2.onclick = () => { 
                     let textVal = document.getElementById('userPlace').value;
-                    userAnswers.step3 = textVal ? `O'zi yozdi: "${textVal}"` : opt2.innerText;
+                    userAnswers.step3 = textVal ? `Свой вариант: "${textVal}"` : opt2.innerText;
                     sendResultsTelegram();
                 };
 
@@ -218,48 +218,47 @@
                 optionsBox.appendChild(opt3);
             } 
             else if (step === 4) {
-                questionText.innerText = "Kelishdik! ✨";
-                complimentText.innerText = "Siz bilan suhbatlashish — men uchun haftaning eng kutilgan qismi bo'ladi.";
+                questionText.innerText = "Договорились! ✨";
+                complimentText.innerText = "Встреча с тобой станет лучшей частью моей недели.";
                 
                 let finalMsg = document.createElement('p');
                 finalMsg.style.fontSize = "16px";
                 finalMsg.style.color = "#7f8c8d";
                 finalMsg.style.lineHeight = "1.5";
-                finalMsg.innerText = "Tez orada barcha tafsilotlarni kelishib olamiz. Vaqt ajratganingiz uchun rahmat! 😉";
+                finalMsg.innerText = "Скоро согласуем все детали. Спасибо за твои ответы! 😉";
                 
                 optionsBox.appendChild(finalMsg);
             }
         }
 
         function sendResultsTelegram() {
-            const message = `🔔 *Yangi javob keldi!*\n\n` +
-                            `1. Uchrashuvga chiqasizmi?: ${userAnswers.step1}\n` +
-                            `2. Qaysi sana?: ${userAnswers.step2}\n` +
-                            `3. Qayerga boriladi?: ${userAnswers.step3}`;
+            const message = `🔔 *Новый ответ на свидание!*\n\n` +
+                            `1. Пойдёшь на свидание?: ${userAnswers.step1}\n` +
+                            `2. Какая дата?: ${userAnswers.step2}\n` +
+                            `3. Куда пойдёте?: ${userAnswers.step3}`;
 
-            const url = `https://api.telegram.org/bot${8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU}/sendMessage`;
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
             
             fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    chat_id: 1311736668,
+                    chat_id: TELEGRAM_CHAT_ID,
                     text: message,
                     parse_mode: 'Markdown'
                 })
             })
             .then(() => { loadStep(4); })
             .catch((error) => {
-                console.log('Telegram xatoligi, lekin sayt davom etadi:', error);
+                console.log('Ошибка отправки в Telegram, но сайт продолжает работу:', error);
                 loadStep(4); 
             });
         }
 
-        // Muammolarni oldini olish uchun xatolikni ushlash
         try {
             loadStep(1);
         } catch(e) {
-            console.error("Yuklanishda xatolik:", e);
+            console.error("Ошибка при загрузке:", e);
         }
     </script>
 
