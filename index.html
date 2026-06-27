@@ -112,11 +112,10 @@
         const questionText = document.getElementById('question');
         const complimentText = document.getElementById('complimentText');
 
-        // BU YERGA O'ZINGIZNING TELEGRAM MA'LUMOTLARINGIZNI QO'YING
+        // ⚠️ DIQQAT! FAQAT SHU IKKI QATOR ICHIDAGI MATNNI O'ZGARTIRING, QO'SHTIRNOQLAR QOLSIN!
         const TELEGRAM_BOT_TOKEN = 'BU_YERGA_BOT_TOKEN_QOYING'; 
         const TELEGRAM_CHAT_ID = 'BU_YERGA_CHAT_ID_QOYING';
 
-        // Javoblarni saqlash uchun obyekt
         let userAnswers = {
             step1: "Ha (Rozi bo'ldi)",
             step2: "",
@@ -201,7 +200,6 @@
                 opt3.onmouseover = () => moveButton(opt3);
                 opt3.onclick = () => moveButton(opt3);
 
-                // Javobni saqlab yakunlash
                 opt1.onclick = () => { 
                     let textVal = document.getElementById('userPlace').value;
                     userAnswers.step3 = textVal ? `O'zi yozdi: "${textVal}"` : opt1.innerText;
@@ -233,17 +231,14 @@
             }
         }
 
-        // Telegramga ma'lumot jo'natish funksiyasi
         function sendResultsTelegram() {
-            // Xabar matni formatlanishi
-            const message = `🔔 **Yangi javob keldi!**\n\n` +
+            const message = `🔔 *Yangi javob keldi!*\n\n` +
                             `1. Uchrashuvga chiqasizmi?: ${userAnswers.step1}\n` +
                             `2. Qaysi sana?: ${userAnswers.step2}\n` +
                             `3. Qayerga boriladi?: ${userAnswers.step3}`;
 
             const url = `https://api.telegram.org/bot${8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU}/sendMessage`;
             
-            // Orqaga bildirmasdan so'rov yuborish
             fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -253,16 +248,19 @@
                     parse_mode: 'Markdown'
                 })
             })
-            .then(() => {
-                loadStep(4); // Xabar ketgach yakuniy oynani ko'rsatish
-            })
+            .then(() => { loadStep(4); })
             .catch((error) => {
-                console.error('Xatolik:', error);
-                loadStep(4); // Xatolik bo'lsa ham qiz sezmasligi uchun yakuniy oynaga o'tib ketaveradi
+                console.log('Telegram xatoligi, lekin sayt davom etadi:', error);
+                loadStep(4); 
             });
         }
 
-        loadStep(1);
+        // Muammolarni oldini olish uchun xatolikni ushlash
+        try {
+            loadStep(1);
+        } catch(e) {
+            console.error("Yuklanishda xatolik:", e);
+        }
     </script>
 
 </body>
