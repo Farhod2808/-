@@ -112,7 +112,17 @@
         const questionText = document.getElementById('question');
         const complimentText = document.getElementById('complimentText');
 
-        // Tugmani tasodifiy qochirish funksiyasi
+        // BU YERGA O'ZINGIZNING TELEGRAM MA'LUMOTLARINGIZNI QO'YING
+        const TELEGRAM_BOT_TOKEN = 'BU_YERGA_BOT_TOKEN_QOYING'; 
+        const TELEGRAM_CHAT_ID = 'BU_YERGA_CHAT_ID_QOYING';
+
+        // Javoblarni saqlash uchun obyekt
+        let userAnswers = {
+            step1: "Ha (Rozi bo'ldi)",
+            step2: "",
+            step3: ""
+        };
+
         function moveButton(btn) {
             const maxWidth = window.innerWidth - btn.offsetWidth - 40;
             const maxHeight = window.innerHeight - btn.offsetHeight - 40;
@@ -127,9 +137,8 @@
             btn.style.width = 'auto';
         }
 
-        // Bosqichlarni yuklash funksiyasi
         function loadStep(step) {
-            optionsBox.innerHTML = ''; // Ichini tozalash
+            optionsBox.innerHTML = '';
             
             if (step === 1) {
                 questionText.innerText = "Men bilan uchrashuvga chiqasizmi?";
@@ -154,11 +163,11 @@
 
                 let opt1 = document.createElement('button');
                 opt1.innerText = "Shu hafta biron kun ishdan keyin";
-                opt1.onclick = () => loadStep(3);
+                opt1.onclick = () => { userAnswers.step2 = opt1.innerText; loadStep(3); };
 
                 let opt2 = document.createElement('button');
                 opt2.innerText = "Shu hafta oxiri yakshanba kuni";
-                opt2.onclick = () => loadStep(3);
+                opt2.onclick = () => { userAnswers.step2 = opt2.innerText; loadStep(3); };
 
                 let opt3 = document.createElement('button');
                 opt3.innerText = "Mening umuman vaqtim yo'q";
@@ -174,7 +183,6 @@
                 questionText.innerText = "Siz juda ajoyib harakat qilyapsiz! Qayerga boramiz?";
                 complimentText.innerText = "Didingiz va dunyoqarashingiz doim meni hayratda qoldiradi.";
 
-                // Matn kiritish qatori (bosh joy)
                 let customInput = document.createElement('input');
                 customInput.type = "text";
                 customInput.placeholder = "O'zingiz xohlagan joyni yozing...";
@@ -183,17 +191,28 @@
 
                 let opt1 = document.createElement('button');
                 opt1.innerText = "Shunchaki ko'rishib aylanishga";
-                opt1.onclick = () => loadStep(4);
-
+                
                 let opt2 = document.createElement('button');
                 opt2.innerText = "Biron joyda o'tirib gaplashishga";
-                opt2.onclick = () => loadStep(4);
 
                 let opt3 = document.createElement('button');
                 opt3.innerText = "Uzr! Men baribir borolmayman";
                 opt3.className = "runaway-btn";
                 opt3.onmouseover = () => moveButton(opt3);
                 opt3.onclick = () => moveButton(opt3);
+
+                // Javobni saqlab yakunlash
+                opt1.onclick = () => { 
+                    let textVal = document.getElementById('userPlace').value;
+                    userAnswers.step3 = textVal ? `O'zi yozdi: "${textVal}"` : opt1.innerText;
+                    sendResultsTelegram();
+                };
+                
+                opt2.onclick = () => { 
+                    let textVal = document.getElementById('userPlace').value;
+                    userAnswers.step3 = textVal ? `O'zi yozdi: "${textVal}"` : opt2.innerText;
+                    sendResultsTelegram();
+                };
 
                 optionsBox.appendChild(customInput);
                 optionsBox.appendChild(opt1);
@@ -214,7 +233,35 @@
             }
         }
 
-        // Sayt ilk bor yuklanganda 1-bosqichni ishga tushirish
+        // Telegramga ma'lumot jo'natish funksiyasi
+        function sendResultsTelegram() {
+            // Xabar matni formatlanishi
+            const message = `🔔 **Yangi javob keldi!**\n\n` +
+                            `1. Uchrashuvga chiqasizmi?: ${userAnswers.step1}\n` +
+                            `2. Qaysi sana?: ${userAnswers.step2}\n` +
+                            `3. Qayerga boriladi?: ${userAnswers.step3}`;
+
+            const url = `https://api.telegram.org/bot${8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU}/sendMessage`;
+            
+            // Orqaga bildirmasdan so'rov yuborish
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: 1311736668,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            })
+            .then(() => {
+                loadStep(4); // Xabar ketgach yakuniy oynani ko'rsatish
+            })
+            .catch((error) => {
+                console.error('Xatolik:', error);
+                loadStep(4); // Xatolik bo'lsa ham qiz sezmasligi uchun yakuniy oynaga o'tib ketaveradi
+            });
+        }
+
         loadStep(1);
     </script>
 
