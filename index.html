@@ -7,8 +7,7 @@
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            /* Premium quyuq va chuqur fon */
-            background: radial-gradient(circle at center, #1a1f29 0%, #0d1117 100%);
+            background-color: #FAFAFA; /* Toza, och fon */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -16,309 +15,61 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            color: #FFFFFF;
+            color: #333333;
+            position: relative;
+        }
+
+        /* Kreativ suzuvchi emojilar uchun stil */
+        .floating-emoji {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.15;
+            animation: floatAnimation 12s linear infinite;
+            bottom: -50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatAnimation {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.2;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-105vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
             text-align: center;
-            /* Glassmorphism: Shisha effekti */
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 50px 35px;
-            border-radius: 28px;
-            /* Tillarang nozik qirra (border) va soya */
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 
-                        0 0 30px rgba(212, 175, 55, 0.05);
+            background: #FFFFFF;
+            padding: 45px 35px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
             max-width: 380px;
             width: 85%;
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10; /* Emojilardan tepada turishi uchun */
         }
 
         h1 {
-            color: #D4AF37; /* Oltin rang */
-            font-size: 24px;
+            color: #2c3e50;
+            font-size: 23px;
             margin-top: 0;
             margin-bottom: 12px;
             font-weight: 600;
-            line-height: 1.3;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .compliment {
-            color: #a0aab5;
-            font-style: italic;
-            font-size: 15px;
-            margin-bottom: 35px;
-            min-height: 22px;
-            font-weight: 400;
             line-height: 1.4;
         }
 
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            position: relative;
-            align-items: center;
-            width: 100%;
-        }
-
-        button {
-            padding: 16px 24px;
-            font-size: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            cursor: pointer;
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.05);
-            color: #FFFFFF;
-            transition: all 0.25s ease;
-            width: 100%;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        button:hover {
-            background: #D4AF37; /* Oltin rangli o'tish */
-            color: #0d1117;
-            border-color: #D4AF37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-            font-weight: 600;
-        }
-
-        .runaway-btn {
-            background: rgba(255, 255, 255, 0.02);
-            color: #626d7a;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .runaway-btn:hover {
-            background: rgba(255, 255, 255, 0.02) !important;
-            color: #626d7a !important;
-            border-color: rgba(255, 255, 255, 0.05) !important;
-            box-shadow: none !important;
-        }
-
-        .custom-input {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.2);
-            box-sizing: border-box;
-            outline: none;
-            margin-bottom: 5px;
-            text-align: center;
-            color: #FFFFFF;
-            transition: all 0.3s;
-        }
-
-        .custom-input:focus {
-            border-color: #D4AF37;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-        }
-
-        /* O'z variantini tasdiqlash uchun maxsus tillarang tugma */
-        .submit-custom-btn {
-            background: rgba(212, 175, 55, 0.15);
-            border: 1px solid #D4AF37;
-            color: #D4AF37;
-        }
-
-        #finalMsg {
-            font-size: 17px;
-            color: #a0aab5;
-            line-height: 1.6;
-            margin-top: 10px;
-            font-weight: 400;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container" id="quizBox">
-        <h1 id="question">Пойдёшь со мной на свидание?</h1>
-        <div class="compliment" id="complimentText">Ты единственная, кто может сделать мои дни намного ярче.</div>
-        
-        <div class="options-container" id="optionsBox">
-            </div>
-    </div>
-
-    <script>
-        const optionsBox = document.getElementById('optionsBox');
-        const questionText = document.getElementById('question');
-        const complimentText = document.getElementById('complimentText');
-
-        const TELEGRAM_BOT_TOKEN = '8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU'; 
-        const TELEGRAM_CHAT_ID = '1311736668';
-
-        let userAnswers = {
-            step1: "Да (Согласилась)",
-            step2: "",
-            step3: ""
-        };
-
-        function moveButton(btn) {
-            const maxWidth = window.innerWidth - btn.offsetWidth - 40;
-            const maxHeight = window.innerHeight - btn.offsetHeight - 40;
-
-            const randomX = Math.floor(Math.random() * maxWidth);
-            const randomY = Math.floor(Math.random() * maxHeight);
-
-            btn.style.position = 'fixed';
-            btn.style.left = randomX + 'px';
-            btn.style.top = randomY + 'px';
-            btn.style.zIndex = '1000';
-            btn.style.width = 'auto';
-        }
-
-        function loadStep(step) {
-            optionsBox.innerHTML = '';
-            
-            if (step === 1) {
-                questionText.innerText = "Пойдёшь со мной на свидание?";
-                complimentText.innerText = "Каждая минута, проведённая с тобой, приносит в мою жизнь особое тепло.";
-
-                let yesBtn = document.createElement('button');
-                yesBtn.innerText = "Да";
-                yesBtn.onclick = () => loadStep(2);
-
-                let noBtn = document.createElement('button');
-                noBtn.innerText = "Нет";
-                noBtn.className = "runaway-btn";
-                noBtn.onmouseover = () => moveButton(noBtn);
-                noBtn.onclick = () => moveButton(noBtn);
-
-                optionsBox.appendChild(yesBtn);
-                optionsBox.appendChild(noBtn);
-            } 
-            else if (step === 2) {
-                questionText.innerText = "Отлично, тогда какую дату выберем?";
-                complimentText.innerText = "В тебе есть какое-то внутреннее спокойствие и искренность, которые очень притягивают.";
-
-                let opt1 = document.createElement('button');
-                opt1.innerText = "Как-нибудь на этой неделе после работы";
-                opt1.onclick = () => { userAnswers.step2 = opt1.innerText; loadStep(3); };
-
-                let opt2 = document.createElement('button');
-                opt2.innerText = "В эти выходные, в воскресенье";
-                opt2.onclick = () => { userAnswers.step2 = opt2.innerText; loadStep(3); };
-
-                let opt3 = document.createElement('button');
-                opt3.innerText = "У меня вообще нет времени";
-                opt3.className = "runaway-btn";
-                opt3.onmouseover = () => moveButton(opt3);
-                opt3.onclick = () => moveButton(opt3);
-
-                optionsBox.appendChild(opt1);
-                optionsBox.appendChild(opt2);
-                optionsBox.appendChild(opt3);
-            } 
-            else if (step === 3) {
-                questionText.innerText = "Прекрасный выбор! Куда пойдём?";
-                complimentText.innerText = "Твой вкус и взгляд на мир всегда приятно удивляют меня.";
-
-                // Klaviatura yopilmasligi uchun inputni alohida yaratamiz va DOM'dan o'chirmaymiz
-                let customInput = document.createElement('input');
-                customInput.type = "text";
-                customInput.placeholder = "Напиши свой вариант, если хочешь...";
-                customInput.className = "custom-input";
-                customInput.id = "userPlace";
-
-                // Standart variantlar uchun konteyner
-                let dynamicButtonsWrapper = document.createElement('div');
-                dynamicButtonsWrapper.style.width = "100%";
-                dynamicButtonsWrapper.style.display = "flex";
-                dynamicButtonsWrapper.style.flexDirection = "column";
-                dynamicButtonsWrapper.style.gap = "15px";
-
-                function renderThirdStepButtons() {
-                    dynamicButtonsWrapper.innerHTML = '';
-                    const textVal = customInput.value.trim();
-
-                    if (textVal !== "") {
-                        // Agar yozishni boshlasa, faqat bitta tillarang tasdiqlash tugmasi chiqadi
-                        let submitBtn = document.createElement('button');
-                        submitBtn.innerText = "Выбрать мой вариант";
-                        submitBtn.className = "submit-custom-btn";
-                        submitBtn.onclick = () => {
-                            userAnswers.step3 = `Свой вариант: "${textVal}"`;
-                            sendResultsTelegram();
-                        };
-                        dynamicButtonsWrapper.appendChild(submitBtn);
-                    } else {
-                        // Agar input bo'sh bo'lsa, standart variantlar turadi
-                        let opt1 = document.createElement('button');
-                        opt1.innerText = "Просто прогуляемся и пообщаемся";
-                        opt1.onclick = () => { userAnswers.step3 = opt1.innerText; sendResultsTelegram(); };
-
-                        let opt2 = document.createElement('button');
-                        opt2.innerText = "Посидим где-нибудь в уютном месте";
-                        opt2.onclick = () => { userAnswers.step3 = opt2.innerText; sendResultsTelegram(); };
-
-                        let opt3 = document.createElement('button');
-                        opt3.innerText = "Извини, я всё равно не смогу пойти";
-                        opt3.className = "runaway-btn";
-                        opt3.onmouseover = () => moveButton(opt3);
-                        opt3.onclick = () => moveButton(opt3);
-
-                        dynamicButtonsWrapper.appendChild(opt1);
-                        dynamicButtonsWrapper.appendChild(opt2);
-                        dynamicButtonsWrapper.appendChild(opt3);
-                    }
-                }
-
-                // Inputga yozganda faqat tugmalar o'zgaradi, input qayta chizilmaydi (fokus yo'qolmaydi)
-                customInput.oninput = renderThirdStepButtons;
-
-                optionsBox.appendChild(customInput);
-                optionsBox.appendChild(dynamicButtonsWrapper);
-                renderThirdStepButtons(); // Ilk yuklash
-            } 
-            else if (step === 4) {
-                questionText.innerText = "Договорились! ✨";
-                complimentText.innerText = "Встреча с тобой станет лучшей частью моей недели.";
-                
-                let finalMsg = document.createElement('p');
-                finalMsg.id = "finalMsg";
-                finalMsg.innerText = "Скоро согласуем все детали. Спасибо за твои ответы! 😉";
-                
-                optionsBox.appendChild(finalMsg);
-            }
-        }
-
-        function sendResultsTelegram() {
-            const message = `🔔 *Новый ответ на свидание!*\n\n` +
-                            `1. Пойдёшь на свидание?: ${userAnswers.step1}\n` +
-                            `2. Какая дата?: ${userAnswers.step2}\n` +
-                            `3. Куда пойдёте?: ${userAnswers.step3}`;
-
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
-            })
-            .then(() => { loadStep(4); })
-            .catch((error) => {
-                console.log('Telegram error:', error);
-                loadStep(4); 
-            });
-        }
-
-        try {
-            loadStep(1);
-        } catch(e) {
-            console.error("Error loading step:", e);
-        }
-    </script>
-
-</body>
-</html>
+        .compliment {
+            color: #7f8c8d; /* Oldingi yoqqan shrift rangi */
+            font-style: italic;
+            font
