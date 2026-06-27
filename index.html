@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #F6F8FA; /* Minimalism: Ochiq silliq kulrang */
+            /* Premium quyuq va chuqur fon */
+            background: radial-gradient(circle at center, #1a1f29 0%, #0d1117 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -15,37 +16,44 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            color: #1A1A1A;
+            color: #FFFFFF;
         }
 
         .container {
             text-align: center;
-            background: #FFFFFF;
-            padding: 50px 40px;
-            border-radius: 30px; /* Minimalism: Silliq yumaloq qirralar */
-            box-shadow: 20px 20px 60px #e0e2e4,
-                        -20px -20px 60px #ffffff; /* Neomorfizm: Yumshoq botiq ko'lanka */
+            /* Glassmorphism: Shisha effekti */
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 50px 35px;
+            border-radius: 28px;
+            /* Tillarang nozik qirra (border) va soya */
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 
+                        0 0 30px rgba(212, 175, 55, 0.05);
             max-width: 380px;
             width: 85%;
             transition: all 0.4s ease;
         }
 
         h1 {
-            color: #2c3e50;
+            color: #D4AF37; /* Oltin rang */
             font-size: 24px;
             margin-top: 0;
             margin-bottom: 12px;
             font-weight: 600;
             line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
         .compliment {
-            color: #95a5a6; /* Minimalism: Nozik kulrang */
+            color: #a0aab5;
             font-style: italic;
             font-size: 15px;
             margin-bottom: 35px;
             min-height: 22px;
             font-weight: 400;
+            line-height: 1.4;
         }
 
         .options-container {
@@ -59,62 +67,69 @@
 
         button {
             padding: 16px 24px;
-            font-size: 17px;
-            border: none;
-            border-radius: 20px;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 500;
-            background-color: #FFFFFF;
-            color: #333;
-            box-shadow: inset 0 0 0 transparent,
-                        8px 8px 16px #e0e2e4,
-                        -8px -8px 16px #ffffff; /* Neomorfizm tugma: Yumshoq chiqib turish */
-            transition: all 0.2s ease-in-out;
+            background: rgba(255, 255, 255, 0.05);
+            color: #FFFFFF;
+            transition: all 0.25s ease;
             width: 100%;
             box-sizing: border-box;
             outline: none;
         }
 
         button:hover {
-            color: #e74c3c;
-            box-shadow: inset 8px 8px 16px #e0e2e4,
-                        inset -8px -8px 16px #ffffff; /* Neomorfizm hoover: Botiq tugma effekti */
+            background: #D4AF37; /* Oltin rangli o'tish */
+            color: #0d1117;
+            border-color: #D4AF37;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            font-weight: 600;
         }
 
         .runaway-btn {
-            background-color: #F8F9FA;
-            color: #bdc3c7;
-            box-shadow: inset 4px 4px 8px #e0e2e4,
-                        inset -4px -4px 8px #ffffff; /* Botiqroq qochish tugmasi */
+            background: rgba(255, 255, 255, 0.02);
+            color: #626d7a;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .runaway-btn:hover {
+            background: rgba(255, 255, 255, 0.02) !important;
+            color: #626d7a !important;
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            box-shadow: none !important;
         }
 
         .custom-input {
             width: 100%;
             padding: 16px 24px;
             font-size: 16px;
-            border: none;
-            border-radius: 20px;
-            background: #F6F8FA;
-            box-shadow: inset 8px 8px 16px #e0e2e4,
-                        inset -8px -8px 16px #ffffff; /* Neomorfizm kiritish maydoni: Botiq */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.2);
             box-sizing: border-box;
             outline: none;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-align: center;
-            color: #1A1A1A;
-            transition: box-shadow 0.2s;
+            color: #FFFFFF;
+            transition: all 0.3s;
         }
 
         .custom-input:focus {
-            box-shadow: inset 8px 8px 16px #e0e2e4,
-                        inset -8px -8px 16px #ffffff,
-                        0 0 10px rgba(231, 76, 60, 0.2);
+            border-color: #D4AF37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
         }
 
-        /* Oxirgi yakuniy matn uchun minimalist stil */
+        /* O'z variantini tasdiqlash uchun maxsus tillarang tugma */
+        .submit-custom-btn {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+        }
+
         #finalMsg {
             font-size: 17px;
-            color: #7f8c8d;
+            color: #a0aab5;
             line-height: 1.6;
             margin-top: 10px;
             font-weight: 400;
@@ -136,7 +151,6 @@
         const questionText = document.getElementById('question');
         const complimentText = document.getElementById('complimentText');
 
-        // Sizning Telegram ma'lumotlaringiz
         const TELEGRAM_BOT_TOKEN = '8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU'; 
         const TELEGRAM_CHAT_ID = '1311736668';
 
@@ -145,8 +159,6 @@
             step2: "",
             step3: ""
         };
-
-        let customPlaceText = ""; // O'zi kiritgan joyni saqlash
 
         function moveButton(btn) {
             const maxWidth = window.innerWidth - btn.offsetWidth - 40;
@@ -161,69 +173,6 @@
             btn.style.zIndex = '1000';
             btn.style.width = 'auto';
         }
-
-        // Input'ga matn kiritilishini tekshiruvchi funksiya
-        function checkCustomInput() {
-            const input = document.getElementById('userPlace');
-            if (input.value.trim() !== "") {
-                customPlaceText = input.value.trim();
-                showSelectCustomBtn(true);
-            } else {
-                customPlaceText = "";
-                showSelectCustomBtn(false);
-            }
-        }
-
-        // Kiritilgan variantni tanlash tugmasini ko'rsatish/yashirish
-        function showSelectCustomBtn(show) {
-            optionsBox.innerHTML = ''; // Tozalash
-
-            // Input'ni qayta qo'shish (har doim tursin)
-            let customInput = document.createElement('input');
-            customInput.type = "text";
-            customInput.placeholder = "Напиши свой вариант, если хочешь...";
-            customInput.className = "custom-input";
-            customInput.id = "userPlace";
-            customInput.value = customPlaceText;
-            customInput.oninput = checkCustomInput; // Har kiritganda tekshirish
-            optionsBox.appendChild(customInput);
-
-            if (show) {
-                // "Выбрать мой вариант" tugmasi
-                let selectCustomBtn = document.createElement('button');
-                selectCustomBtn.innerText = "Выбрать мой вариант";
-                selectCustomBtn.onclick = () => { 
-                    userAnswers.step3 = `Свой вариант: "${customPlaceText}"`;
-                    sendResultsTelegram();
-                };
-                optionsBox.appendChild(selectCustomBtn);
-            } else {
-                // Standart variantlarni ko'rsatish
-                addStandardOptions();
-            }
-        }
-
-        // 3-bosqich uchun standart variantlarni qo'shish
-        function addStandardOptions() {
-            let opt1 = document.createElement('button');
-            opt1.innerText = "Просто прогуляемся и пообщаемся";
-            opt1.onclick = () => { userAnswers.step3 = opt1.innerText; sendResultsTelegram(); };
-
-            let opt2 = document.createElement('button');
-            opt2.innerText = "Посидим где-нибудь в уютном месте";
-            opt2.onclick = () => { userAnswers.step3 = opt2.innerText; sendResultsTelegram(); };
-
-            let opt3 = document.createElement('button');
-            opt3.innerText = "Извини, я всё равно не смогу пойти";
-            opt3.className = "runaway-btn";
-            opt3.onmouseover = () => moveButton(opt3);
-            opt3.onclick = () => moveButton(opt3);
-
-            optionsBox.appendChild(opt1);
-            optionsBox.appendChild(opt2);
-            optionsBox.appendChild(opt3);
-        }
-
 
         function loadStep(step) {
             optionsBox.innerHTML = '';
@@ -271,8 +220,62 @@
                 questionText.innerText = "Прекрасный выбор! Куда пойдём?";
                 complimentText.innerText = "Твой вкус и взгляд на мир всегда приятно удивляют меня.";
 
-                // 3-bosqichni boshida standart variantlar bilan yuklash
-                showSelectCustomBtn(false); 
+                // Klaviatura yopilmasligi uchun inputni alohida yaratamiz va DOM'dan o'chirmaymiz
+                let customInput = document.createElement('input');
+                customInput.type = "text";
+                customInput.placeholder = "Напиши свой вариант, если хочешь...";
+                customInput.className = "custom-input";
+                customInput.id = "userPlace";
+
+                // Standart variantlar uchun konteyner
+                let dynamicButtonsWrapper = document.createElement('div');
+                dynamicButtonsWrapper.style.width = "100%";
+                dynamicButtonsWrapper.style.display = "flex";
+                dynamicButtonsWrapper.style.flexDirection = "column";
+                dynamicButtonsWrapper.style.gap = "15px";
+
+                function renderThirdStepButtons() {
+                    dynamicButtonsWrapper.innerHTML = '';
+                    const textVal = customInput.value.trim();
+
+                    if (textVal !== "") {
+                        // Agar yozishni boshlasa, faqat bitta tillarang tasdiqlash tugmasi chiqadi
+                        let submitBtn = document.createElement('button');
+                        submitBtn.innerText = "Выбрать мой вариант";
+                        submitBtn.className = "submit-custom-btn";
+                        submitBtn.onclick = () => {
+                            userAnswers.step3 = `Свой вариант: "${textVal}"`;
+                            sendResultsTelegram();
+                        };
+                        dynamicButtonsWrapper.appendChild(submitBtn);
+                    } else {
+                        // Agar input bo'sh bo'lsa, standart variantlar turadi
+                        let opt1 = document.createElement('button');
+                        opt1.innerText = "Просто прогуляемся и пообщаемся";
+                        opt1.onclick = () => { userAnswers.step3 = opt1.innerText; sendResultsTelegram(); };
+
+                        let opt2 = document.createElement('button');
+                        opt2.innerText = "Посидим где-нибудь в уютном месте";
+                        opt2.onclick = () => { userAnswers.step3 = opt2.innerText; sendResultsTelegram(); };
+
+                        let opt3 = document.createElement('button');
+                        opt3.innerText = "Извини, я всё равно не смогу пойти";
+                        opt3.className = "runaway-btn";
+                        opt3.onmouseover = () => moveButton(opt3);
+                        opt3.onclick = () => moveButton(opt3);
+
+                        dynamicButtonsWrapper.appendChild(opt1);
+                        dynamicButtonsWrapper.appendChild(opt2);
+                        dynamicButtonsWrapper.appendChild(opt3);
+                    }
+                }
+
+                // Inputga yozganda faqat tugmalar o'zgaradi, input qayta chizilmaydi (fokus yo'qolmaydi)
+                customInput.oninput = renderThirdStepButtons;
+
+                optionsBox.appendChild(customInput);
+                optionsBox.appendChild(dynamicButtonsWrapper);
+                renderThirdStepButtons(); // Ilk yuklash
             } 
             else if (step === 4) {
                 questionText.innerText = "Договорились! ✨";
@@ -305,7 +308,7 @@
             })
             .then(() => { loadStep(4); })
             .catch((error) => {
-                console.log('Ошибка отправки в Telegram, но сайт продолжает работу:', error);
+                console.log('Telegram error:', error);
                 loadStep(4); 
             });
         }
@@ -313,7 +316,7 @@
         try {
             loadStep(1);
         } catch(e) {
-            console.error("Ошибка при загрузке:", e);
+            console.error("Error loading step:", e);
         }
     </script>
 
