@@ -74,13 +74,11 @@
             color: #e74c3c;
         }
 
-        /* Qochib ketishi kerak bo'lgan tugma stili */
         .runaway-btn {
             background-color: #fbfbfb;
             color: #95a5a6;
         }
 
-        /* Matn kiritish joyi (3-savol uchun) */
         .custom-input {
             width: 100%;
             padding: 14px 20px;
@@ -97,16 +95,6 @@
         .custom-input:focus {
             border-color: #e74c3c;
         }
-
-        .submit-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-        }
-        .submit-btn:hover {
-            background-color: #c0392b;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -120,12 +108,11 @@
     </div>
 
     <script>
-        let currentStep = 1;
         const optionsBox = document.getElementById('optionsBox');
         const questionText = document.getElementById('question');
         const complimentText = document.getElementById('complimentText');
 
-        // Tugmani qochirish funksiyasi
+        // Tugmani tasodifiy qochirish funksiyasi
         function moveButton(btn) {
             const maxWidth = window.innerWidth - btn.offsetWidth - 40;
             const maxHeight = window.innerHeight - btn.offsetHeight - 40;
@@ -140,13 +127,13 @@
             btn.style.width = 'auto';
         }
 
-        // Bosqichlarni boshqarish
+        // Bosqichlarni yuklash funksiyasi
         function loadStep(step) {
-            optionsBox.innerHTML = ''; // Tozalash
+            optionsBox.innerHTML = ''; // Ichini tozalash
             
             if (step === 1) {
                 questionText.innerText = "Men bilan uchrashuvga chiqasizmi?";
-                complimentText.innerText = "Siz bilan o'tgan har bir daqiqa hayotimga o'zgacha iliqlik olib kiradi.";
+                complimentText.innerText = "Kunlarimni yanada mazmunli qilishingiz mumkin bo'lgan yagona insonsiz.";
 
                 let yesBtn = document.createElement('button');
                 yesBtn.innerText = "Ha";
@@ -187,7 +174,7 @@
                 questionText.innerText = "Siz juda ajoyib harakat qilyapsiz! Qayerga boramiz?";
                 complimentText.innerText = "Didingiz va dunyoqarashingiz doim meni hayratda qoldiradi.";
 
-                // O'zi yozishi uchun input
+                // Matn kiritish qatori (bosh joy)
                 let customInput = document.createElement('input');
                 customInput.type = "text";
                 customInput.placeholder = "O'zingiz xohlagan joyni yozing...";
@@ -208,10 +195,6 @@
                 opt3.onmouseover = () => moveButton(opt3);
                 opt3.onclick = () => moveButton(opt3);
 
-                // Input to'ldirilib boshqa joyga bosilsa yoki biron variant tanlansa ham o'tadi
-                opt1.onclick = () => { saveCustomPlace(); loadStep(4); };
-                opt2.onclick = () => { saveCustomPlace(); loadStep(4); };
-
                 optionsBox.appendChild(customInput);
                 optionsBox.appendChild(opt1);
                 optionsBox.appendChild(opt2);
@@ -221,4 +204,19 @@
                 questionText.innerText = "Kelishdik! ✨";
                 complimentText.innerText = "Siz bilan suhbatlashish — men uchun haftaning eng kutilgan qismi bo'ladi.";
                 
-                let final
+                let finalMsg = document.createElement('p');
+                finalMsg.style.fontSize = "16px";
+                finalMsg.style.color = "#7f8c8d";
+                finalMsg.style.lineHeight = "1.5";
+                finalMsg.innerText = "Tez orada barcha tafsilotlarni kelishib olamiz. Vaqt ajratganingiz uchun rahmat! 😉";
+                
+                optionsBox.appendChild(finalMsg);
+            }
+        }
+
+        // Sayt ilk bor yuklanganda 1-bosqichni ishga tushirish
+        loadStep(1);
+    </script>
+
+</body>
+</html>
