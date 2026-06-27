@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Quiz Interaction ✨</title>
+    <title>✨ Special Quiz ✨</title>
     <style>
         body {
             font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -115,7 +115,7 @@
             font-weight: 500;
             background-color: #FFFFFF;
             color: #4A4A4A;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
             width: 100%;
             box-sizing: border-box;
             outline: none;
@@ -135,12 +135,14 @@
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
         }
 
+        /* Qochadigan tugma uchun silliq animatsiya transitioni */
         .runaway-btn {
             background-color: #FBFBFB;
             color: #95a5a6;
             border: 1px solid #F0F0F0;
             font-weight: 400;
-            transition: left 0.15s ease, top 0.15s ease, transform 0.1s ease !important;
+            /* Faqat pozitsiya o'zgarganda fonda chiroyli siljiydi va yo'qolmaydi */
+            transition: left 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), top 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
         }
 
         .custom-input {
@@ -211,7 +213,7 @@
     </script>
 
     <div class="container" id="quizBox">
-        <h1 id="question">Выберите язык / Тилни танlang</h1>
+        <h1 id="question">Выберите язык / Тилни tanlang</h1>
         <div class="compliment" id="complimentText" style="color: #7f8c8d;">✨</div>
         
         <div class="options-container" id="optionsBox">
@@ -226,9 +228,8 @@
         const TELEGRAM_BOT_TOKEN = '8820143337:AAEG4yo61jHOYQKd8It4dd4_Bkbp-K42wyU'; 
         const TELEGRAM_CHAT_ID = '1311736668';
 
-        let currentLang = 'uz'; // Tanlangan til
+        let currentLang = 'uz';
 
-        // Ikki tildagi matnlar bazasi
         const locales = {
             uz: {
                 step1_q: "Men bilan uchrashuvga chiqasanmi?",
@@ -268,7 +269,7 @@
                 step2_o3: "У меня вообще нет времени",
                 step3_q: "Прекрасный выбор! Куда пойдём?",
                 step3_c: "Твой вкус и взгляд на мир всегда приятно удивляют меня.",
-                step3_placeholder: "Напиши свой variant, если хочешь...",
+                step3_placeholder: "Напиши свой вариант, если хочешь...",
                 step3_custom_btn: "Выбрать мой вариант",
                 step3_o1: "Просто прогуляемся и пообщаемся",
                 step3_o2: "Посидим где-нибудь в уютном месте",
@@ -291,11 +292,14 @@
             step3: ""
         };
 
+        // Aqlli qochish funksiyasi: Tugmani faqat ko'rinadigan ekran ichida aylantiradi
         function moveButton(btn) {
-            const padding = 30;
+            const padding = 40;
+            // Ekran o'lchamlari cheklovlari
             const maxWidth = window.innerWidth - btn.offsetWidth - padding;
             const maxHeight = window.innerHeight - btn.offsetHeight - padding;
 
+            // Tasodifiy yangi koordinatalar (lekin har doim ekran ichida qoladi)
             let randomX = Math.floor(Math.random() * (maxWidth - padding)) + padding;
             let randomY = Math.floor(Math.random() * (maxHeight - padding)) + padding;
 
@@ -303,10 +307,9 @@
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
             btn.style.zIndex = '1000';
-            btn.style.width = 'auto';
+            btn.style.width = '160px'; // Qochganda ixcham shaklga keladi
         }
 
-        // Birinchi bosqich: Tilni tanlash
         function loadLangStep() {
             optionsBox.innerHTML = '';
             
@@ -336,10 +339,10 @@
 
         function loadStep(step) {
             optionsBox.innerHTML = '';
-            const text = locales[currentLang]; // Faol til matnlari
+            const text = locales[currentLang];
             
             if (step === 1) {
-                complimentText.style.color = '#e74c3c'; // Kompliment rangini o'z holiga qaytarish
+                complimentText.style.color = '#e74c3c';
                 questionText.innerText = text.step1_q;
                 complimentText.innerText = text.step1_c;
 
@@ -348,6 +351,7 @@
                 yesBtn.className = "primary-btn";
                 yesBtn.onclick = () => loadStep(2);
 
+                // Dastlab to'g'ri "Да" tugmasining tagida joylashadigan "Нет" tugmasi
                 let noBtn = document.createElement('button');
                 noBtn.innerText = text.step1_no;
                 noBtn.className = "runaway-btn";
@@ -476,7 +480,7 @@
         }
 
         try {
-            loadLangStep(); // Til tanlash bosqichidan boshlash
+            loadLangStep();
         } catch(e) {
             console.error("Error loading step:", e);
         }
